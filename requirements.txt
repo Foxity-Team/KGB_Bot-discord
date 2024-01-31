@@ -17,7 +17,7 @@ mutagen==1.47.0
 numpy==1.26.2
 opencv-python==4.8.1.78
 pillow==10.2.0
-pycryptodomex==3.19.0
+pycryptodomex==3.19.1
 python-dotenv==1.0.0
 requests==2.31.0
 soupsieve==2.5
