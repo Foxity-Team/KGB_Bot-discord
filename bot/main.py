@@ -1278,7 +1278,7 @@ async def playaudio(ctx, url):
     if isinstance(ctx.channel, discord.DMChannel): return
 
     if not ctx.author.voice:
-        await ctx.reply('Вы должны быть подключены к голосовому каналу, чтобы воспроизвести музыку.')
+        await send_error_embed(ctx, 'Вы должны быть подключены к голосовому каналу, чтобы воспроизвести музыку.')
         return
 
     channel = ctx.author.voice.channel
@@ -1304,7 +1304,7 @@ async def play(ctx, url):
     if isinstance(ctx.channel, discord.DMChannel): return
 
     if not ctx.author.voice:
-        await ctx.reply('Вы должны быть подключены к голосовому каналу, чтобы воспроизвести музыку.')
+        await send_error_embed(ctx, 'Вы должны быть подключены к голосовому каналу, чтобы воспроизвести музыку.')
         return
 
     voice_channel = ctx.author.voice.channel
@@ -1324,7 +1324,7 @@ async def play(ctx, url):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
             if not info:
-                await ctx.reply('Произошла ошибка получения данных о музыке. Проверьте правильность ввода ссылки')
+                await send_error_embed(ctx, 'Произошла ошибка получения данных о музыке. Проверьте правильность ввода ссылки')
                 return
             for format in info['formats']:
                 if format['audio_ext'] == 'none': continue
@@ -1344,7 +1344,9 @@ async def play(ctx, url):
 @helpCategory('music')
 async def leave(ctx):
     if isinstance(ctx.channel, discord.DMChannel): return
-    if not ctx.voice_client: return
+    if not ctx.voice_client:
+        await send_error_embed(ctx, 'Бот должен быть подключён к голосовому каналу, чтобы выйти')
+        return
 
     await ctx.voice_client.disconnect()
 
@@ -1403,7 +1405,8 @@ async def scratch_user(ctx, username):
         return
 
     if 'username' not in data:
-        await ctx.reply('Пользователь не найден.')
+        await send_error_embed(ctx, f'Пользователь с именем `{username}` не найден')
+        return
 
     user_info = {
         'Страна:'                 : data['profile']['country'],
@@ -1417,7 +1420,7 @@ async def scratch_user(ctx, username):
         color=discord.Color.orange()
     )
     embed.set_thumbnail(url=data['profile']['images']['90x90']) 
-    embed.set_footer(text=f'ID: {data['id']}')  
+    embed.set_footer(text=f'ID: {data["id"]}')  
 
     for n,v in user_info.items():
         embed.add_field(name=n, value=v, inline=False)
