@@ -1696,14 +1696,14 @@ async def help_execute(ctx):
 @helpCategory('info')
 async def crypto_price(ctx):
     def get_crypto_price(symbol, api_key):
-        url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=usd"
+        url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=rub"
         headers = {
         "Content-Type": "application/json",
         "X-CoinAPI-Key": api_key
         }
         response = requests.get(url, headers=headers)
         data = response.json()
-        return data.get(symbol, {}).get("usd")
+        return data.get(symbol, {}).get("rub")
         
     api_key = "CG-XV44NHn7td9m52kmCLcaxCe4"
     
@@ -1721,9 +1721,9 @@ async def crypto_price(ctx):
         crypto_price = get_crypto_price(symbol, api_key)
         
         if crypto_price is not None:
-            embed.add_field(name=crypto_name.capitalize(), value=f"${crypto_price}", inline=True)
+            embed.add_field(name=crypto_name.capitalize(), value=f"${crypto_price}", inline=False)
         else:
-            embed.add_field(name=crypto_name.capitalize(), value="Не удалось получить курс", inline=True)
+            embed.add_field(name=crypto_name.capitalize(), value="Не удалось получить курс", inline=False)
     
     await ctx.send(embed=embed)
 
