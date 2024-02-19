@@ -1705,7 +1705,7 @@ async def crypto_price(ctx):
         data = response.json()
         return data.get(symbol, {}).get("usd")
         
-        api_key = "CG-XV44NHn7td9m52kmCLcaxCe4"
+    api_key = "CG-XV44NHn7td9m52kmCLcaxCe4"
     
     symbols = {
         "monero": "monero",
