@@ -1692,6 +1692,41 @@ async def help_execute(ctx):
     file = discord.File('static_data/help.txt')
     await ctx.reply(file=file)
 
+@kgb.command(description='Показывает курс криптовалют по отношению к рублю')
+@helpCategory('info')
+async def crypto_price(ctx):
+    def get_crypto_price(symbol, api_key):
+        url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=usd"
+        headers = {
+        "Content-Type": "application/json",
+        "X-CoinAPI-Key": api_key
+        }
+        response = requests.get(url, headers=headers)
+        data = response.json()
+        return data.get(symbol, {}).get("usd")
+        
+        api_key = "CG-XV44NHn7td9m52kmCLcaxCe4"
+    
+    symbols = {
+        "monero": "monero",
+        "dogecoin": "dogecoin",
+        "ethereum": "ethereum",
+        "bitcoin": "bitcoin",
+        "zephyr": "zephyr-protocol"
+    }
+    
+    embed = discord.Embed(title="Курсы криптовалют", color=discord.Color.gold())
+    
+    for crypto_name, symbol in symbols.items():
+        crypto_price = get_crypto_price(symbol, api_key)
+        
+        if crypto_price is not None:
+            embed.add_field(name=crypto_name.capitalize(), value=f"${crypto_price}", inline=True)
+        else:
+            embed.add_field(name=crypto_name.capitalize(), value="Не удалось получить курс", inline=True)
+    
+    await ctx.send(embed=embed)
+
 HELP_EMB = buildHelpEmbed()
 HELP_CAT_EMB, HELP_CAT_HIDDEN = buildCategoryEmbeds()
 kgb.run(getenv('DISCORD_TOKEN', ''))
