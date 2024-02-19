@@ -1721,7 +1721,7 @@ async def crypto_price(ctx):
         crypto_price = get_crypto_price(symbol, api_key)
         
         if crypto_price is not None:
-            embed.add_field(name=crypto_name.capitalize(), value=f"${crypto_price}", inline=False)
+            embed.add_field(name=crypto_name.capitalize(), value=f"₽{crypto_price}", inline=False)
         else:
             embed.add_field(name=crypto_name.capitalize(), value="Не удалось получить курс", inline=False)
     
