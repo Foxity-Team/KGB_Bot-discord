@@ -1726,12 +1726,16 @@ async def price(ctx, arg=None):
     }
     
     if arg is None:
-        embed = discord.Embed(title="Список криптовалют:", description="Вот только скажите что щас заработает", color=discord.Color.red())
-        embed.add_field(name="Монеро (Monero)", value="Курс монеро к рублю", inline=False)
-        embed.add_field(name="Догги Коин (Dogecoin)", value="Курс догги коин к USD", inline=False)
-        embed.add_field(name="Эфириум (Ethereum)", value="Курс эфириума к USD", inline=False)
-        embed.add_field(name="Биткоин (Bitcoin)", value="Курс биткоина к USD", inline=False)
-        embed.add_field(name="Зефир (Zephyr Protocol)", value="Курс зефира к USD", inline=False)
+        embed = discord.Embed(
+            title='Список криптовалют:', 
+            description=
+            '1. Монеро (Monero)'
+            '\n2. Зефир (Zephyr Protocol)'
+            '\n3. Догги Коин (Dogecoin)'
+            '\n4. Эфириум (Ethereum)'
+            '\n5. Биткоин (Bitcoin)'
+            , color=discord.Color.red()
+        )
     else:
         symbol = symbols.get(arg.lower())
         if symbol is None:
@@ -1740,9 +1744,9 @@ async def price(ctx, arg=None):
         
         crypto_price = get_crypto_price(symbol, api_key)
         if crypto_price is not None:
-            embed = discord.Embed(title=f"Курс {arg.capitalize()} к USD", description=f"${crypto_price}", color=get_embed_color(arg.lower()))
+            embed = discord.Embed(title=f"Курс {arg.capitalize()} к рублю", description=f"${crypto_price}", color=get_embed_color(arg.lower()))
         else:
-            embed = discord.Embed(title=f"Курс {arg.capitalize()} к USD", description="Не удалось получить курс", color=get_embed_color(arg.lower()))
+            embed = discord.Embed(title=f"Курс {arg.capitalize()} к рублю", description="Не удалось получить курс", color=get_embed_color(arg.lower()))
     
     await ctx.send(embed=embed)
 
