@@ -131,7 +131,27 @@ async def send_error_embed(ctx, err_msg: str):
         description = err_msg,
         color = discord.Colour(0xFF0000)
     ))
-      
+
+def get_crypto_price(symbol, api_key):
+    url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=usd"
+    headers = {
+        "Content-Type": "application/json",
+        "X-CoinAPI-Key": api_key
+    }
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    return data.get(symbol, {}).get("usd")
+
+def get_embed_color(argument):
+    colors = {
+        "monero": discord.Color.orange(),
+        "zephyr": discord.Color.blue(),
+        "bitcoin": discord.Color.gold(),
+        "ethereum": discord.Color(0xa843b0),
+        "dogecoin": discord.Color(0xd2691e)
+    }
+    return colors.get(argument, discord.Color.red())
+
 def no_format(user):
     if isinstance(user, discord.Member) and user.discriminator != '0':
         return f'{user.name}#{user.discriminator}'
@@ -1694,17 +1714,7 @@ async def help_execute(ctx):
 
 @kgb.command(description='Показывает курс криптовалют по отношению к рублю')
 @helpCategory('info')
-async def crypto_price(ctx):
-    def get_crypto_price(symbol, api_key):
-        url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=rub"
-        headers = {
-        "Content-Type": "application/json",
-        "X-CoinAPI-Key": api_key
-        }
-        response = requests.get(url, headers=headers)
-        data = response.json()
-        return data.get(symbol, {}).get("rub")
-        
+async def price(ctx, arg=None):
     api_key = "CG-XV44NHn7td9m52kmCLcaxCe4"
     
     symbols = {
@@ -1715,15 +1725,24 @@ async def crypto_price(ctx):
         "zephyr": "zephyr-protocol"
     }
     
-    embed = discord.Embed(title="Курсы криптовалют", color=discord.Color.gold())
-    
-    for crypto_name, symbol in symbols.items():
-        crypto_price = get_crypto_price(symbol, api_key)
+    if arg is None:
+        embed = discord.Embed(title="Список криптовалют", color=discord.Color.red())
+        embed.add_field(name="Монеро (Monero)", value="Курс монеро к USD", inline=False)
+        embed.add_field(name="Догги Коин (Dogecoin)", value="Курс догги коин к USD", inline=False)
+        embed.add_field(name="Эфириум (Ethereum)", value="Курс эфириума к USD", inline=False)
+        embed.add_field(name="Биткоин (Bitcoin)", value="Курс биткоина к USD", inline=False)
+        embed.add_field(name="Зефир (Zephyr Protocol)", value="Курс зефира к USD", inline=False)
+    else:
+        symbol = symbols.get(arg.lower())
+        if symbol is None:
+            await ctx.send("Криптовалюта не найдена")
+            return
         
+        crypto_price = get_crypto_price(symbol, api_key)
         if crypto_price is not None:
-            embed.add_field(name=crypto_name.capitalize(), value=f"₽{crypto_price}", inline=False)
+            embed = discord.Embed(title=f"Курс {arg.capitalize()} к USD", description=f"${crypto_price}", color=get_embed_color(arg.lower()))
         else:
-            embed.add_field(name=crypto_name.capitalize(), value="Не удалось получить курс", inline=False)
+            embed = discord.Embed(title=f"Курс {arg.capitalize()} к USD", description="Не удалось получить курс", color=get_embed_color(arg.lower()))
     
     await ctx.send(embed=embed)
 
