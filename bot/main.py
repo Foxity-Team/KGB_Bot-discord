@@ -133,24 +133,25 @@ async def send_error_embed(ctx, err_msg: str):
     ))
 
 def get_crypto_price(symbol, api_key):
-    url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=usd"
+    url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=rub"
     headers = {
         "Content-Type": "application/json",
         "X-CoinAPI-Key": api_key
     }
     response = requests.get(url, headers=headers)
     data = response.json()
-    return data.get(symbol, {}).get("usd")
+    return data.get(symbol, {}).get("rub")
 
 def get_embed_color(argument):
     colors = {
-        "monero": discord.Color.orange(),
-        "zephyr": discord.Color.blue(),
-        "bitcoin": discord.Color.gold(),
+        "monero": discord.Color(0xff7717),
+        "zephyr": discord.Color(0x00f2e2),
+        "bitcoin": discord.Color(0xffda42),
         "ethereum": discord.Color(0xa843b0),
-        "dogecoin": discord.Color(0xd2691e)
+        "dogecoin": discord.Color(0xd2691e),
+        "usdt": discord.Color(0x00ffb0)
     }
-    return colors.get(argument, discord.Color.red())
+    return colors.get(argument, discord.Color(0x000000))
 
 def no_format(user):
     if isinstance(user, discord.Member) and user.discriminator != '0':
@@ -1722,7 +1723,8 @@ async def price(ctx, arg=None):
         "dogecoin": "dogecoin",
         "ethereum": "ethereum",
         "bitcoin": "bitcoin",
-        "zephyr": "zephyr-protocol"
+        "zephyr": "zephyr-protocol",
+        "usdt": "tether"
     }
     
     if arg is None:
@@ -1731,9 +1733,12 @@ async def price(ctx, arg=None):
             description=
             '1. Монеро (Monero)'
             '\n2. Зефир (Zephyr Protocol)'
-            '\n3. Догги Коин (Dogecoin)'
-            '\n4. Эфириум (Ethereum)'
-            '\n5. Биткоин (Bitcoin)'
+            '\n3. Тевер (Tether)'
+            '\n4. Догикоин (Dogecoin)'
+            '\n5. Эфириум (Ethereum)'
+            '\n6. Биткоин (Bitcoin)\n'
+            '\nЧто бы узнать курс криптовалюты напишите:'
+            '\nkgb!price (название валюты на англ. со строчной буквы)'
             , color=discord.Color.red()
         )
     else:
@@ -1744,7 +1749,7 @@ async def price(ctx, arg=None):
         
         crypto_price = get_crypto_price(symbol, api_key)
         if crypto_price is not None:
-            embed = discord.Embed(title=f"Курс {arg.capitalize()} к рублю", description=f"${crypto_price}", color=get_embed_color(arg.lower()))
+            embed = discord.Embed(title=f"Курс {arg.capitalize()} к рублю", description=f"₽{crypto_price}", color=get_embed_color(arg.lower()))
         else:
             embed = send_error_embed(ctx, f"Не удалось получить курс валюты {arg.capitalize()}.")
     
