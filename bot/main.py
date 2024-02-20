@@ -149,7 +149,7 @@ def get_embed_color(argument):
         "bitcoin": discord.Color(0xffc227),
         "ethereum": discord.Color(0x6b7ce5),
         "dogecoin": discord.Color(0xfbbe91),
-        "usdt": discord.Color(0x96ecb30)
+        "tether": discord.Color(0x96ecb30)
     }
     return colors.get(argument, discord.Color(0x000000))
 
@@ -1715,18 +1715,7 @@ async def help_execute(ctx):
 
 @kgb.command(description='Показывает курс криптовалют по отношению к рублю')
 @helpCategory('info')
-async def price(ctx, arg=None):
-    api_key = "CG-XV44NHn7td9m52kmCLcaxCe4"
-    
-    symbols = {
-        "monero": "monero",
-        "dogecoin": "dogecoin",
-        "ethereum": "ethereum",
-        "bitcoin": "bitcoin",
-        "zephyr": "zephyr-protocol",
-        "tether": "tether"
-    }
-    
+async def price(ctx, arg=None): 
     if arg is None:
         embed = discord.Embed(
             title='Список криптовалют:', 
