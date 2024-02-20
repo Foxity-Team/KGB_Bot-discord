@@ -10,3 +10,12 @@ boostyURL = "https://boosty.to/kgbmodernbot"
 tumbaYUMBA = "https://media.discordapp.net/attachments/1068579157493153863/1094662619211780096/Bez_nazvania2_20230409092059.png"
 ver = "0.1.0 \n0.2.0 \n0.3.0 \n0.4.0 \n0.5.0 \n0.6.0 \n0.6.3 \n0.6.4 \n1.0 \n1.1 \n1.2 \n1.2.5 \n1.3 \n1.5 \n1.5.5 \n1.6 \n1.7 \n1.8 \n2.0 \n2.5 \n3.0(нынешняя)"
 siteURL = "https://site.soviet-workshop.repl.co/"
+api_key = "CG-XV44NHn7td9m52kmCLcaxCe4"
+symbols = {
+  "monero": "monero",
+  "dogecoin": "dogecoin",
+  "ethereum": "ethereum",
+  "bitcoin": "bitcoin",
+  "zephyr": "zephyr-protocol",
+  "tether": "tether"
+}
