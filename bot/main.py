@@ -149,7 +149,6 @@ def get_embed_color(argument):
         "bitcoin": discord.Color(0xffc227),
         "ethereum": discord.Color(0x6b7ce5),
         "dogecoin": discord.Color(0xfbbe91),
-        "tether": discord.Color(0x96ecb30)
     }
     return colors.get(argument, discord.Color(0x000000))
 
@@ -1722,10 +1721,9 @@ async def price(ctx, arg=None):
             description=
             '1. Монеро (Monero)'
             '\n2. Зефир (Zephyr Protocol)'
-            '\n3. Тевер (Tether)'
-            '\n4. Догикоин (Dogecoin)'
-            '\n5. Эфириум (Ethereum)'
-            '\n6. Биткоин (Bitcoin)\n'
+            '\n3. Догикоин (Dogecoin)'
+            '\n4. Эфириум (Ethereum)'
+            '\n5. Биткоин (Bitcoin)\n'
             '\nЧто бы узнать курс криптовалюты напишите:'
             '\nkgb!price (название валюты на англ. со строчной буквы)'
             , color=discord.Color(0x000000)
