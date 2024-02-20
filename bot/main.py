@@ -1739,14 +1739,14 @@ async def price(ctx, arg=None):
     else:
         symbol = symbols.get(arg.lower())
         if symbol is None:
-            await ctx.send("Криптовалюта не найдена")
+            await send_error_embed(ctx, "Криптовалюта не найдена")
             return
         
         crypto_price = get_crypto_price(symbol, api_key)
         if crypto_price is not None:
             embed = discord.Embed(title=f"Курс {arg.capitalize()} к рублю", description=f"${crypto_price}", color=get_embed_color(arg.lower()))
         else:
-            embed = discord.Embed(title=f"Курс {arg.capitalize()} к рублю", description="Не удалось получить курс", color=get_embed_color(arg.lower()))
+            embed = send_error_embed(ctx, f"Не удалось получить курс валюты {arg.capitalize()}.")
     
     await ctx.send(embed=embed)
 
