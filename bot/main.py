@@ -144,12 +144,12 @@ def get_crypto_price(symbol, api_key):
 
 def get_embed_color(argument):
     colors = {
-        "monero": discord.Color(0xff7717),
-        "zephyr": discord.Color(0x00f2e2),
-        "bitcoin": discord.Color(0xffda42),
-        "ethereum": discord.Color(0xa843b0),
-        "dogecoin": discord.Color(0xd2691e),
-        "usdt": discord.Color(0x00ffb0)
+        "monero": discord.Color(0xFF7717),
+        "zephyr": discord.Color(0x00F2E2),
+        "bitcoin": discord.Color(0xFFDA42),
+        "ethereum": discord.Color(0x5C6BFD),
+        "dogecoin": discord.Color(0xD2691E),
+        "usdt": discord.Color(0x00FFB0)
     }
     return colors.get(argument, discord.Color(0x000000))
 
@@ -1724,7 +1724,7 @@ async def price(ctx, arg=None):
         "ethereum": "ethereum",
         "bitcoin": "bitcoin",
         "zephyr": "zephyr-protocol",
-        "usdt": "tether"
+        "tether": "tether"
     }
     
     if arg is None:
