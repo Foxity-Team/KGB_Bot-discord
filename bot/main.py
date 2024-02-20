@@ -144,12 +144,12 @@ def get_crypto_price(symbol, api_key):
 
 def get_embed_color(argument):
     colors = {
-        "monero": discord.Color(0xFF7717),
-        "zephyr": discord.Color(0x00F2E2),
-        "bitcoin": discord.Color(0xFFDA42),
-        "ethereum": discord.Color(0x5C6BFD),
-        "dogecoin": discord.Color(0xD2691E),
-        "usdt": discord.Color(0x00FFB0)
+        "monero": discord.Color(0xff8917),
+        "zephyr": discord.Color(0x76ede9),
+        "bitcoin": discord.Color(0xffc227),
+        "ethereum": discord.Color(0x6b7ce5),
+        "dogecoin": discord.Color(0xfbbe91),
+        "usdt": discord.Color(0x96ecb30)
     }
     return colors.get(argument, discord.Color(0x000000))
 
@@ -1739,7 +1739,7 @@ async def price(ctx, arg=None):
             '\n6. Биткоин (Bitcoin)\n'
             '\nЧто бы узнать курс криптовалюты напишите:'
             '\nkgb!price (название валюты на англ. со строчной буквы)'
-            , color=discord.Color.red()
+            , color=discord.Color(0x000000)
         )
     else:
         symbol = symbols.get(arg.lower())
