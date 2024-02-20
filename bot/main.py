@@ -1726,7 +1726,7 @@ async def price(ctx, arg=None):
     }
     
     if arg is None:
-        embed = discord.Embed(title="Список криптовалют:", color=discord.Color.red())
+        embed = discord.Embed(title="Список криптовалют:", description="Вот только скажите что щас заработает", color=discord.Color.red())
         embed.add_field(name="Монеро (Monero)", value="Курс монеро к рублю", inline=False)
         embed.add_field(name="Догги Коин (Dogecoin)", value="Курс догги коин к USD", inline=False)
         embed.add_field(name="Эфириум (Ethereum)", value="Курс эфириума к USD", inline=False)
