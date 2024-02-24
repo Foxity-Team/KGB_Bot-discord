@@ -1749,13 +1749,28 @@ async def price(ctx, arg=None):
 @helpCategory('neuro')
 async def training(ctx, *, text):
     result = neuro.training(text)
-    await ctx.send(result)
+    if result == 'Успешно!':
+        await ctx.send(embed=discord.Embed(
+            title='Результат:',
+            description=result,
+            color=discord.Colour(0x000000)
+        ))
+    else:
+        await ctx.send(embed=discord.Embed(
+            title='Результат:',
+            description=result,
+            color=discord.Colour(0xFF0000)
+        ))
 
 @kgb.command("Вы можете поговорить с ботом с помощью этой команды.")
 @helpCategory('neuro')
 async def ask(ctx, *, text):
     answer = neuro.neuroKGB(text)
-    await ctx.send(answer)
+    await ctx.send(embed=discord.Embed(
+        title='Ответ:',
+        description=answer,
+        color=discord.Colour(0x000000)
+    ))
 
 HELP_EMB = buildHelpEmbed()
 HELP_CAT_EMB, HELP_CAT_HIDDEN = buildCategoryEmbeds()
