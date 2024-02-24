@@ -20,6 +20,7 @@ import sys
 import config as global_config
 import retr
 import time
+import neuro
 
 from datetime import datetime, timedelta
 from difflib import get_close_matches
@@ -1741,6 +1742,18 @@ async def price(ctx, arg=None):
             embed = send_error_embed(ctx, f"Не удалось получить курс валюты {arg.capitalize()}.")
     
     await ctx.send(embed=embed)
+
+@kgb.command()
+@helpCategory('neuro')
+async def training(ctx, *, text):
+    result = neuro.training(text)
+    await ctx.send(result)
+
+@kgb.command()
+@helpCategory('neuro')
+async def ask(ctx, *, text):
+    answer = neuro.neuroKGB(text)
+    await ctx.send(answer)
 
 HELP_EMB = buildHelpEmbed()
 HELP_CAT_EMB, HELP_CAT_HIDDEN = buildCategoryEmbeds()
