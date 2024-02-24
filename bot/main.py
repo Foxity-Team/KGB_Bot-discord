@@ -1743,7 +1743,7 @@ async def price(ctx, arg=None):
     
     await ctx.send(embed=embed)
 
-@kgb.command('Вы можете помочь обучить нам бота,\n'
+@kgb.command(description='Вы можете помочь обучить нам бота,\n'
              'Для этого напишите в качестве аргумента для команды:\n'
              'вопрос:ответ - где вопрос и ответ это любой текст.')
 @helpCategory('neuro')
@@ -1762,7 +1762,7 @@ async def training(ctx, *, text):
             color=discord.Colour(0xFF0000)
         ))
 
-@kgb.command("Вы можете поговорить с ботом с помощью этой команды.")
+@kgb.command(description="Вы можете поговорить с ботом с помощью этой команды.")
 @helpCategory('neuro')
 async def ask(ctx, *, text):
     answer = neuro.neuroKGB(text)
