@@ -5,7 +5,7 @@ HAns = []
 
 
 def get_data():
-    with open('static_data/data.txt', 'r', encoding='utf-8') as file:
+    with open('data/data.txt', 'r', encoding='utf-8') as file:
         Q = []
         A = []
         for line in file:
@@ -15,7 +15,7 @@ def get_data():
         return Q, A
 
 def get_tokens():
-    with open('static_data/tokens.txt', 'r', encoding='utf-8') as file:
+    with open('data/tokens.txt', 'r', encoding='utf-8') as file:
         words = []
         tokens = []
         for line in file:
@@ -52,7 +52,7 @@ def sentence_to_tokens(sentence, words_list, tokens_list):
         if token is None:
             new_token = str(len(tokens_list) + 1)
             new_tokens.append(new_token)
-            with open("static_data/tokens.txt", 'a', encoding='utf-8') as file:
+            with open("data/tokens.txt", 'a', encoding='utf-8') as file:
                 file.write(f"{word}:{new_token}\n")
             words_list.append(word)
             tokens_list.append(new_token)
@@ -113,15 +113,6 @@ def training(text):
         question_in_tokens_string = ' '.join(sentence_to_tokens(question, words, tokens))
         answer_in_tokens_string = ' '.join(sentence_to_tokens(answer, words, tokens))
         new_data = question_in_tokens_string+':'+answer_in_tokens_string
-        with open('static_data/data.txt', 'a') as file:
+        with open('data/data.txt', 'a') as file:
             file.write(f'{new_data}\n')
         return 'Успешно!'
-
-#while True:
-#    try:
-#        question = input("Введите вопрос >>>")
-#        answer = BlockGPT3(question)
-#        print(f"BlockGPT3: {answer}")
-#    except KeyboardInterrupt:
-#        print("\nДо свидания!")
-#        exit()
