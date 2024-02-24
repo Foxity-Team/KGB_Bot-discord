@@ -8,14 +8,14 @@ words = []
 tokens = []
 
 def get_data():
-    with open('/static_data/data.txt', 'r', encoding='utf-8') as file:
+    with open('static_data/data.txt', 'r', encoding='utf-8') as file:
         for line in file:
             question, answer = line.strip().split(':')
             Q.append(question.strip())
             A.append(answer.strip())
 
 def get_tokens():
-    with open('/static_data/tokens.txt', 'r', encoding='utf-8') as file:
+    with open('static_data/tokens.txt', 'r', encoding='utf-8') as file:
         for line in file:
             word, token = line.strip().split(':')
             words.append(word.strip())
@@ -49,7 +49,7 @@ def sentence_to_tokens(sentence, words_list, tokens_list):
         if token is None:
             new_token = str(len(tokens_list) + 1)
             new_tokens.append(new_token)
-            with open("/static_data/tokens.txt", 'a', encoding='utf-8') as file:
+            with open("static_data/tokens.txt", 'a', encoding='utf-8') as file:
                 file.write(f"{word}:{new_token}\n")
             words_list.append(word)
             tokens_list.append(new_token)
@@ -110,7 +110,7 @@ def training(text):
         question_in_tokens_string = ' '.join(sentence_to_tokens(question, words, tokens))
         answer_in_tokens_string = ' '.join(sentence_to_tokens(answer, words, tokens))
         new_data = question_in_tokens_string+':'+answer_in_tokens_string
-        with open('/static_data/data.txt', 'a') as file:
+        with open('static_data/data.txt', 'a') as file:
             file.write(f'{new_data}\n')
         return 'Успешно!'
 
