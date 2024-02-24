@@ -1,25 +1,28 @@
 import difflib
 
-Q = []
-A = []
 HQues = []
 HAns = []
-words = []
-tokens = []
+
 
 def get_data():
     with open('static_data/data.txt', 'r', encoding='utf-8') as file:
+        Q = []
+        A = []
         for line in file:
             question, answer = line.strip().split(':')
             Q.append(question.strip())
             A.append(answer.strip())
+        return Q, A
 
 def get_tokens():
     with open('static_data/tokens.txt', 'r', encoding='utf-8') as file:
+        words = []
+        tokens = []
         for line in file:
             word, token = line.strip().split(':')
             words.append(word.strip())
             tokens.append(token.strip())
+        return words, tokens
 
 
 
@@ -73,8 +76,8 @@ def compare_strings(string1, string2):
     return matcher.ratio() * 100
 
 def neuroKGB(question):
-    get_tokens()
-    get_data()
+    words, tokens = get_tokens()
+    Q, A = get_data()
     question = question.lower()
     question = sentence_to_tokens(question, words, tokens)
     maxod = 0
@@ -96,8 +99,8 @@ def neuroKGB(question):
             return tokens_to_sentence(A[imaxod], words, tokens)
 
 def training(text):
-    get_tokens()
-    get_data()
+    words, tokens = get_tokens()
+    Q, A = get_data()
     try:
         question, answer = text.split(":")
     except:
