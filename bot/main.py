@@ -21,7 +21,7 @@ import config as global_config
 import retr
 import time
 import neuro
-import minegen
+import minegen as minegen_mod
 
 from datetime import datetime, timedelta
 from difflib import get_close_matches
@@ -1792,7 +1792,7 @@ async def minegen(ctx, *, mine_count=10):
 
     await ctx.send(embed=discord.Embed(
         title='Удачи ;)',
-        desciption=str(minegen.Field(9, 9, mine_count)),
+        desciption=str(minegen_mod.Field(9, 9, mine_count)),
         color=discord.Colour(0x000000)
     ))
     
