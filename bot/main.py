@@ -1792,7 +1792,7 @@ async def minegen(ctx, *, mine_count=10):
 
     await ctx.send(embed=discord.Embed(
         title='Удачи ;)',
-        desciption=str(minegen_mod.Field(9, 9, mine_count)),
+        description=str(minegen_mod.Field(9, 9, mine_count)),
         color=discord.Colour(0x000000)
     ))
     
