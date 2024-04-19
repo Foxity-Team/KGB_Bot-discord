@@ -21,6 +21,7 @@ import config as global_config
 import retr
 import time
 import neuro
+import minegen
 
 from datetime import datetime, timedelta
 from difflib import get_close_matches
@@ -1783,6 +1784,18 @@ async def send_data(ctx, filename):
     except Exception as e:
         await ctx.send(f"Ошибка при чтении файла: {e}")
 
+@kgb.command(desciption="Генерирует минное поле. Можно также указать кол-во бомб до 81 штуки")
+async def minegen(ctx, *, mine_count=10):
+    if mine_count <= 0:
+        await send_error_embed(ctx, "Неверное число мин! Нужно указать в диапазоне от 1 до 81")
+        return
+
+    await ctx.send(embed=discord.Embed(
+        title='Удачи ;)',
+        desciption=str(minegen.Field(9, 9, mine_count)),
+        color=discord.Colour(0x000000)
+    ))
+    
 @kgb.command()
 @helpCategory('secret')
 async def send_tokens(ctx, filename):
