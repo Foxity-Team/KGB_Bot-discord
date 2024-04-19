@@ -1784,7 +1784,8 @@ async def send_data(ctx, filename):
     except Exception as e:
         await ctx.send(f"Ошибка при чтении файла: {e}")
 
-@kgb.command(desciption="Генерирует минное поле. Можно также указать кол-во бомб до 81 штуки")
+@kgb.command(description="Генерирует минное поле. Можно также указать кол-во бомб до 81 штуки")
+@helpCategory('fun')
 async def minegen(ctx, *, mine_count=10):
     if mine_count <= 0:
         await send_error_embed(ctx, "Неверное число мин! Нужно указать в диапазоне от 1 до 81")
