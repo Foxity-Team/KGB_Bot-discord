@@ -1,7 +1,7 @@
 import random
 
 FIELD_EMOJI_MAP = {
-    -1: '💥',
+    -1: '🅱️',
     0: '0️⃣',
     1: '1️⃣',
     2: '2️⃣',
