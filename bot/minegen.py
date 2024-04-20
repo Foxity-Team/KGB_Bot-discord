@@ -1,7 +1,7 @@
 import random
 
 FIELD_EMOJI_MAP = {
-    -1: '🅱️',
+    -1: '🇧',
     0: '0️⃣',
     1: '1️⃣',
     2: '2️⃣',
@@ -70,5 +70,5 @@ class Field:
         return out
 
 if __name__ == '__main__':
-    field = Field(11, 11, 10)
+    field = Field(9, 9, 13)
     print(field)
