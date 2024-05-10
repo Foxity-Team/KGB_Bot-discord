@@ -1111,7 +1111,7 @@ async def poll(ctx, hours: int, *, text: str):
         color=0x000000
     )
 
-    msgp = await ctx.reply(embed=embedVar)
+    msgp = await ctx.send(embed=embedVar)
 
     await msgp.add_reaction('🔼')
     await msgp.add_reaction('🔽')
