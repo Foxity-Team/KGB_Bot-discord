@@ -13,17 +13,14 @@ import typing
 import fortune
 import time
 import yt_dlp
-import typing
 import markov
-import json
 import sys
 import config as global_config
 import retr
-import time
 import neuro
 import minegen as minegen_mod
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from difflib import get_close_matches
 from os.path import isfile
 from discord.ext import commands
@@ -74,7 +71,7 @@ async def change_status():
         servers_count = len(kgb.guilds)
         status = statuses[index].format(servers_count)
         try: await kgb.change_presence(activity=discord.Game(name=status))
-        except: pass
+        except Exception: pass
         index = (index+1) % len(statuses)
         await asyncio.sleep(10)
 
@@ -246,7 +243,8 @@ async def manageGenAiMsgs(message) -> bool:
 
 @kgb.event
 async def on_message(message):
-    for retr in RETR_PUBLISHERS.values(): await retr.publish(kgb, message)
+    for publisher in RETR_PUBLISHERS.values():
+        await publisher.publish(kgb, message)
 
     replied = await manageGenAiMsgs(message)
     saveGenAiState()
@@ -351,7 +349,7 @@ async def help(ctx, *, query=None):
             return
 
     try:
-        if not HELP_CAT_HIDDEN is None:
+        if HELP_CAT_HIDDEN is not None:
             await ctx.reply(embed=HELP_CAT_HIDDEN[query])
             return
     except KeyError:
@@ -368,7 +366,7 @@ async def help(ctx, *, query=None):
         embed.add_field(name='Альтернативные названия:', value=aliases, inline=False)
 
     usage = f'kgb!{command.name} {command.signature}'
-    embed.add_field(name=f'Использование:', value=f'`{usage}`', inline=False)
+    embed.add_field(name='Использование:', value=f'`{usage}`', inline=False)
 
     await ctx.reply(embed=embed)
   
@@ -1101,7 +1099,7 @@ async def pet(ctx, member: discord.Member):
 async def poll(ctx, hours: int, *, text: str):
     if isinstance(ctx.channel, discord.DMChannel): return
     
-    end_time = datetime.utcnow() + timedelta(hours=hours)
+    end_time = datetime.now(timezone.utc) + timedelta(hours=hours)
     end_time_msk = end_time + timedelta(hours=3)
     end_time_str = end_time_msk.strftime('%H:%M:%S')
     
@@ -1118,7 +1116,7 @@ async def poll(ctx, hours: int, *, text: str):
     await msgp.add_reaction('🔼')
     await msgp.add_reaction('🔽')
     
-    while datetime.utcnow() < end_time:
+    while datetime.now(timezone.utc) < end_time:
         await asyncio.sleep(1)
     
     msgp = await msgp.channel.fetch_message(msgp.id)
@@ -1312,7 +1310,7 @@ async def playaudio(ctx, url):
             options='-vn', 
             before_options='-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
         ))
-    except: pass
+    except Exception: pass
 
     while voice_client.is_playing():
         await asyncio.sleep(1)
@@ -1357,7 +1355,7 @@ async def play(ctx, url):
 
         while voice_client.is_playing():
             await asyncio.sleep(1)
-    except: pass
+    except Exception: pass
 
     await asyncio.sleep(5)
     await voice_client.disconnect()
@@ -1503,7 +1501,7 @@ async def porfir(ctx, *, prompt):
             return
 
         if response.status_code == 500:
-            await ctx.reply(f'Нейросеть отключена, невозможно предположить время её включения.')
+            await ctx.reply('Нейросеть отключена, невозможно предположить время её включения.')
             return
 
         if response.status_code != 200:
@@ -1563,7 +1561,7 @@ async def gen(ctx, *args: str):
 async def genconfig(ctx, option: str, *, value: typing.Union[str, None] = None):
     if isinstance(ctx.channel, discord.DMChannel): return
 
-    optionKeys = f''.join([f'`{key}` ' for key in markov.DEFAULT_CONFIG])
+    optionKeys = ''.join([f'`{key}` ' for key in markov.DEFAULT_CONFIG])
 
     def strToBool(inp: str) -> bool: return inp.lower() == 'true'
     
