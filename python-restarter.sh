@@ -9,7 +9,7 @@ if [[ -z $1 ]]; then
 fi
 
 while true; do
-  git pull && python $1 2>temp.log
+  git pull >temp.log && python $1 2>>temp.log
   lastcode=$?
 
   if [[ $lastcode = 0 ]]; then
