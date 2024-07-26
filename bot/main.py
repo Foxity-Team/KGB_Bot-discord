@@ -40,6 +40,9 @@ RETR_PUBLISHERS = {
     'griss': retr.Publisher(1131911759968612434, 'data/retrgris.txt'),
 }
 
+numders = ["0", "1", "2", "4", "5", "6", "7", "8", "9"]
+letters = ["A", "B", "C", "D", "E", "F"]
+
 last_command_time={}
 
 start_time = datetime.utcnow()
@@ -140,6 +143,12 @@ async def send_error_embed(ctx, err_msg: str):
     ))
 
 
+
+def random_character():
+    return numders[randint(0, 8)] if randint(0, 25) >= 15 else letters[randint(0, 5)]
+
+def generate_random_or_xx():
+    return "XX" if randint(1, 1000) == 1 else random_character() + random_character()
 
 def decimal_time(dt):
     hours = dt.hour
@@ -1770,7 +1779,7 @@ async def price(ctx, arg=None):
 async def uptime(ctx):
     current_time = datetime.utcnow()
     uptime_duration = current_time - start_time
-    uptime_str = str(uptime_duration).split('.')[0]  # Обрезаем микросекунды
+    uptime_str = str(uptime_duration).split('.')[0]
     await ctx.send(embed=discord.Embed(
         title='Бот работает уже:',
         description=uptime_str,
@@ -1821,6 +1830,33 @@ async def minegen(ctx, *, mine_count=10):
         description=str(minegen_mod.Field(9, 9, mine_count)),
         color=discord.Colour(0x000000)
     ))
+
+@bot.command(description="Генерирует HEX-Дампы")
+@commands.cooldown(rate=1, per=100, type=commands.BucketType.user)
+async def generate(ctx, lines: int, rows: int):
+    if lines > 1000 or rows > 1000:
+        await send_error_embed(ctx, 'Нельзя создать дамп больше 1000 строк и 1000 линий!')
+        return
+
+    filename = "data/damp.txt"
+
+    with open(filename, "w") as file:
+        for _ in range(lines):
+            line_data = f"00000{generate_random_or_xx()}0 "
+            line_data += '  '.join(generate_random_or_xx() for _ in range(rows))
+            file.write(line_data.strip() + "\n\n")
+
+    embed = discord.Embed(
+        title="Файл сгенерирован",
+        description="Файл успешно сгенерирован.",
+        color=discord.Color.green()
+    )
+    await ctx.send(embed=embed)
+
+    with open(filename, "rb") as file:
+        await ctx.send("Файл успешно создан!", file=discord.File(file, filename))
+
+    os.remove(filename)
 
 HELP_EMB = buildHelpEmbed()
 HELP_CAT_EMB, HELP_CAT_HIDDEN = buildCategoryEmbeds()
