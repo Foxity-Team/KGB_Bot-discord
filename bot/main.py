@@ -58,7 +58,7 @@ msgCounter = 0
 
 kgb = commands.Bot(command_prefix = global_config.prefix, strip_after_prefix = True, sync_commands=True, intents = discord.Intents.all())
 kgb.remove_command('help')
-#load_dotenv()
+load_dotenv()
 
 HELP_EMB: typing.Union[discord.Embed, None] = None
 HELP_CAT_EMB: typing.Union[list[discord.Embed], None] = None
