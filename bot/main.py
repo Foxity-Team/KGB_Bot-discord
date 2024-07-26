@@ -145,10 +145,10 @@ async def send_error_embed(ctx, err_msg: str):
 
 
 def random_character():
-    return numders[randint(0, 8)] if randint(0, 25) >= 15 else letters[randint(0, 5)]
+    return numders[random.randint(0, 8)] if random.randint(0, 25) >= 15 else letters[random.randint(0, 5)]
 
 def generate_random_or_xx():
-    return "XX" if randint(1, 1000) == 1 else random_character() + random_character()
+    return "XX" if random.randint(1, 1000) == 1 else random_character() + random_character()
 
 def decimal_time(dt):
     hours = dt.hour
