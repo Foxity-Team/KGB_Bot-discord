@@ -1831,7 +1831,8 @@ async def minegen(ctx, *, mine_count=10):
         color=discord.Colour(0x000000)
     ))
 
-@bot.command(description="Генерирует HEX-Дампы")
+@kgb.command(description="Генерирует HEX-Дампы")
+@helpCategory('fun')
 @commands.cooldown(rate=1, per=100, type=commands.BucketType.user)
 async def generate(ctx, lines: int, rows: int):
     if lines > 1000 or rows > 1000:
