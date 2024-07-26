@@ -19,6 +19,8 @@ import config as global_config
 import retr
 import neuro
 import minegen as minegen_mod
+import time
+import pytz
 
 from datetime import datetime, timedelta, timezone
 from difflib import get_close_matches
@@ -29,6 +31,8 @@ from os import getenv
 from dotenv import load_dotenv
 from categories import buildHelpEmbed, buildCategoryEmbeds, helpCategory
 
+
+
 genaiDataPath = 'data/genai_info.json'
 GUILD_SEEK_FILENAME = 'data/guild_seek.json'
 KGB_RETR = 'data/retr.txt'
@@ -38,6 +42,8 @@ RETR_PUBLISHERS = {
 }
 
 last_command_time={}
+
+start_time = datetime.utcnow()
 
 ERR_CHANNEL_ID = 1123467774098935828
 
@@ -51,18 +57,21 @@ channels = loadFile('data/channels.json')
 genAiArray: dict[str, markov.MarkovGen] = {k: markov.MarkovGen(states=v['state'], config=v['config']) for k,v in loadFile(genaiDataPath).items()}
 msgCounter = 0
 
-print('AdventurerUp Corporation')
 kgb = commands.Bot(command_prefix = global_config.prefix, strip_after_prefix = True, sync_commands=True, intents = discord.Intents.all())
 kgb.remove_command('help')
-load_dotenv()
+#load_dotenv()
 
 HELP_EMB: typing.Union[discord.Embed, None] = None
 HELP_CAT_EMB: typing.Union[list[discord.Embed], None] = None
 HELP_CAT_HIDDEN: typing.Union[dict[str, discord.Embed], None] = None
 
+
+
 if not os.path.isfile('data/guild_seek.json'):
     with open('data/guild_seek.json', 'w', encoding='utf-8') as f:
         f.write('{}')
+
+
 
 async def change_status():
     statuses = 'kgb!help', 'версия 3.0', 'на {} серверах!'
@@ -130,6 +139,29 @@ async def send_error_embed(ctx, err_msg: str):
         description = err_msg,
         color = discord.Colour(0xFF0000)
     ))
+
+
+
+def decimal_time(dt):
+    hours = dt.hour
+    minutes = dt.minute
+    seconds = dt.second
+
+    total_seconds = hours * 3600 + minutes * 60 + seconds
+    decimal_day = total_seconds / (24 * 3600)
+    decimal_hours = decimal_day * 10
+
+    decimal_hour = int(decimal_hours)
+    decimal_minute = (decimal_hours - decimal_hour) * 100
+    decimal_minute_int = int(decimal_minute)
+    decimal_second = (decimal_minute - decimal_minute_int) * 100
+    decimal_second_int = int(decimal_second)
+
+    return decimal_hour, decimal_minute_int, decimal_second_int
+
+def get_time(timezone):
+    tz = pytz.timezone(timezone)
+    return datetime.now(tz)
 
 def get_crypto_price(symbol, api_key):
     url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=rub"
@@ -597,9 +629,8 @@ async def thank(ctx):
     await ctx.reply(embed = discord.Embed(
         title = 'Я благодарен:',
         description = 
-            'СВЗ(@svz_code_), за предоставленный обучающий материал!\n'
-            'Грише(@grisshink), за помощь в разработке бота!\n'
-            'Санечке(@demsanechka) за рисование аватара для бота',
+            'СВЗ(@svz_code_), за идею\n'
+            'Санечке(@demsanechka) за аватар для бота',
         color = discord.Color(0xFFFF00)
     ))
   
@@ -1370,14 +1401,6 @@ async def leave(ctx):
 
     await ctx.voice_client.disconnect()
 
-@kgb.command(description='Вышлет вам код дискорд бота "SudoBot"')
-@helpCategory('misc')
-async def code(ctx):
-    if isinstance(ctx.channel, discord.DMChannel): return
-
-    file = discord.File('static_data/sudocode.py')
-    await ctx.reply(file=file)
-
 @kgb.command(description=
     'Введите эту команду в тот канал куда вы хотите получать новости.\n'
     'Напишите в качестве агрумента "Off" если хотите отписаться от новостей.'
@@ -1492,7 +1515,7 @@ async def porfir(ctx, *, prompt):
         api_url = 'https://pelevin.gpt.dobro.ai/generate/'
         data = {
             'prompt': prompt,
-            'length': random.randint(20, 60)
+            'length': random.randint(20, 100)
         }
         try:
             response = requests.post(api_url, json=data, timeout=30)
@@ -1742,45 +1765,50 @@ async def price(ctx, arg=None):
     
     await ctx.send(embed=embed)
 
-@kgb.command(description='Вы можете помочь обучить нам бота,\n'
-             'Для этого напишите в качестве аргумента для команды:\n'
-             'вопрос:ответ - где вопрос и ответ это любой текст.')
-@helpCategory('neuro')
-async def training(ctx, *, text):
-    result = neuro.training(text)
-    if result == 'Успешно!':
-        await ctx.send(embed=discord.Embed(
-            title='Результат:',
-            description=result,
-            color=discord.Colour(0x000000)
-        ))
-    else:
-        await ctx.send(embed=discord.Embed(
-            title='Результат:',
-            description=result,
-            color=discord.Colour(0xFF0000)
-        ))
 
-@kgb.command(description="Вы можете поговорить с ботом с помощью этой команды.")
-@helpCategory('neuro')
-async def ask(ctx, *, text):
-    answer = neuro.neuroKGB(text)
+@kgb.command(description='Показывает аптайм бота')
+@helpCategory('info')
+async def uptime(ctx):
+    current_time = datetime.utcnow()
+    uptime_duration = current_time - start_time
+    uptime_str = str(uptime_duration).split('.')[0]  # Обрезаем микросекунды
     await ctx.send(embed=discord.Embed(
-        title='Ответ:',
-        description=answer,
+        title='Бот работает уже:',
+        description=uptime_str,
         color=discord.Colour(0x000000)
     ))
 
-@kgb.command()
-@helpCategory('secret')
-async def send_data(ctx, filename):
-    try:
-        with open("data/data.txt", 'rb') as file:
-            await ctx.send(file=discord.File(file, "data.txt"))
-    except FileNotFoundError:
-        await ctx.send("Файл не найден.")
-    except Exception as e:
-        await ctx.send(f"Ошибка при чтении файла: {e}")
+@kgb.command(description='Показывает аптайм бота')
+@helpCategory('info')
+async def dectime(ctx):
+    def convert(time_tuple):
+        return f"{time_tuple[0]:02}:{time_tuple[1]:02}:{time_tuple[2]:02}"
+    
+    moscow_tz = 'Europe/Moscow'
+    washington_tz = 'America/New_York'
+    yekaterinburg_tz = 'Asia/Yekaterinburg'
+    kiev_tz = 'Europe/Kiev'
+    tokyo_tz = 'Asia/Tokyo'
+    sydney_tz = 'Australia/Sydney'
+
+    moscow_time = decimal_time(get_time(moscow_tz))
+    washington_time = decimal_time(get_time(washington_tz))
+    yekaterinburg_time = decimal_time(get_time(yekaterinburg_tz))
+    kiev_time = decimal_time(get_time(kiev_tz))
+    tokyo_time = decimal_time(get_time(tokyo_tz))
+    sydney_time = decimal_time(get_time(sydney_tz))
+
+    await ctx.send(embed=discord.Embed(
+        title='Десятичное Время',
+        description=
+        f'Россия/Москва {convert(moscow_time)}\n'
+        f'США/Вашингтон {convert(washington_time)}\n'
+        f'Россия/Екатеринбург {convert(yekaterinburg_time)}\n'
+        f'Украина/Киев {convert(kiev_time)}\n'
+        f'Япония/Токио {convert(tokyo_time)}\n'
+        f'Австралия/Сидней {convert(sydney_time)}',
+        color=discord.Colour(0x000000)
+    ))
 
 @kgb.command(description="Генерирует минное поле. Можно также указать кол-во бомб до 81 штуки")
 @helpCategory('fun')
