@@ -1847,13 +1847,6 @@ async def generate(ctx, lines: int, rows: int):
             line_data += '  '.join(generate_random_or_xx() for _ in range(rows))
             file.write(line_data.strip() + "\n\n")
 
-    embed = discord.Embed(
-        title="Файл сгенерирован",
-        description="Файл успешно сгенерирован.",
-        color=discord.Color.green()
-    )
-    await ctx.send(embed=embed)
-
     with open(filename, "rb") as file:
         await ctx.send("Файл успешно создан!", file=discord.File(file, filename))
 
