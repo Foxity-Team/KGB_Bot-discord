@@ -19,7 +19,7 @@ opencv-python==4.8.1.78
 pillow==10.2.0
 pycryptodomex==3.19.1
 python-dotenv==1.0.0
-requests==2.31.0
+requests==2.32.2
 soupsieve==2.5
 urllib3==2.1.0
 websockets==12.0
