@@ -1835,8 +1835,8 @@ async def minegen(ctx, *, mine_count=10):
 @helpCategory('fun')
 @commands.cooldown(rate=1, per=100, type=commands.BucketType.user)
 async def generate(ctx, lines: int, rows: int):
-    if lines > 1000 or rows > 1000:
-        await send_error_embed(ctx, 'Нельзя создать дамп больше 1000 строк и 1000 линий!')
+    if lines > 500 or rows > 500:
+        await send_error_embed(ctx, 'Нельзя создать дамп больше 500 строк и 500 линий!')
         return
 
     filename = "data/damp.txt"
