@@ -1786,7 +1786,7 @@ async def uptime(ctx):
         color=discord.Colour(0x000000)
     ))
 
-@kgb.command(description='Показывает аптайм бота')
+@kgb.command(description='Показывает десятичное время по 5 городам.')
 @helpCategory('info')
 async def dectime(ctx):
     def convert(time_tuple):
