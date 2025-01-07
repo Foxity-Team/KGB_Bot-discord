@@ -10,7 +10,7 @@ discord.py==2.3.2
 fortune==1.1.1
 frozenlist==1.4.1
 grizzled-python==2.2.0
-hellya_lite==15.0
+drapixcol==1.0
 idna==3.6
 multidict==6.0.4
 mutagen==1.47.0
