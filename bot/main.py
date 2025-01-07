@@ -217,7 +217,7 @@ def execute_code(code):
             return 'Код содержит запрещенное ключевое слово: {}'.format(keyword)
 
     try:
-        exec('from hellya import *\n' + code)
+        exec('from drapixcol import *\n' + code)
         return 'Код успешно выполнен.'
     except Exception as e:
         return f'{str(e)}'
@@ -1697,7 +1697,7 @@ async def bot_info(ctx):
     embed.set_footer(text='© 2023 Soviet WorkShop', icon_url=global_config.avaURL)
     await ctx.reply(embed=embed)
 
-@kgb.command(desciption='Выполняет код языка Hellya')
+@kgb.command(desciption='Выполняет код языка Drapixcol')
 @helpCategory('neuro')
 async def execute(ctx, *, code=None):
     user_id = ctx.author.id
@@ -1715,7 +1715,7 @@ async def execute(ctx, *, code=None):
 
     if not code and ctx.message.attachments:
         attachment = ctx.message.attachments[0]
-        if attachment.filename.endswith('.hellya'):
+        if attachment.filename.endswith('.py'):
             code = (await attachment.read()).decode('utf-8')
         else:
             await send_error_embed(ctx, 'Пожалуйста, прикрепите текстовый файл с кодом.')
