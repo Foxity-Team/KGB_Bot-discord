@@ -1,54 +1,94 @@
-Чтобы создать холст вам нужно:
+Drapixcol
 
-ширина, высота = 17, 24 - задать ширину и высоту
-холст = создать_холст(ширина, высота, белый, прозрачность) - создать непрозрачный холст с заданной шириной и высотой и с белым цветом.
 
-Чтобы нарисовать пиксель вам нужно:
+Python library for drawing with pixels.
 
-красить_пиксель(холст, x=8, y=0 , чёрный, непрозрачный) - рисует непрозрачный чёрный пиксель на холсте в координатах x=8 y=0.
 
-Так же можно делать циклы:
+The create_canvas function creates a canvas with a given width and color, example:
 
-повторить(холст, 2, x=0, y=0, дальше, зелёный) - рисует 1 пиксель два раза начиная от координат x=0 y=0, двигаясь вперёд по иксу.
-повторить(холст, 2, x=0, y=0, дальше, зелёный, шаг=2) - рисует 1 пиксель два раза начиная от координат x=0 y=0, двигаясь вперёд по иксу пропуская 1 пиксель.
-повторить(холст, 2, x=0, y=0, вниз, зелёный) - рисует 1 пиксель два раза начиная от координат x=0 y=0, двигаясь вниз по игреку.
-повторить(холст, 2, x=0, y=0, наискось_вверх, зелёный) - рисует 1 пиксель два раза начиная от координат x=0 y=0, двигаясь наискось вверх.
-повторить(холст, 2, x=0, y=0, наискось_вниз, зелёный) - рисует 1 пиксель два раза начиная от координат x=0 y=0, двигаясь наискось вниз.
+width, height = 10, 20
+canvas = create_canvas(width, height, white)
 
-Чтобы сохранить файл вам нужно:
+This code created an opaque canvas with a width of 10, a height of 20, and a white color,
+Also, this function can be passed transparency as the fourth argument.
 
-сохранить(холст, в50) - сохраняет холст, но увеличивает картинку в 50 раз сохраняя её качество
+The pixel function paints a specific pixel a color, example:
 
-Все аргументы:
+pixel(canvas, 5, 0 , black)
 
-чёрный - чёрный цвет
-белый - белый цвет
-красный - красный цвет
-синий - синий цвет
-жёлтый - жёлтый цвет
-зелёный - зелёный цвет
-коричневый - коричневый цвет
-голубой - голубой цвет
-светлоголубой - светло-голубой цвет
+This code paints a pixel on the canvas "canvas" at coordinates x=5 y=0 black,
+You can also pass transparency to this function as the fifth argument.
 
-дальше - идти вперёд по иксу
-вниз - идти вниз по иксу
-наискось_вниз - идти наискось вних
-наискось_вверх - идти наискось вверх
+The repeat function draws a sequence of pixels in any direction and with any space between pixels, example:
 
-полупрозрачный - полупрозрачный пиксель
-прозрачный -прозрачный пиксель
-на80 - прозрачность пикселя на 80%
-на60 - прозрачность пикселя на 60%
-на40 - прозрачность пикселя на 40%
-на20 - прозрачность пикслея на 20%
-непрозрачный - непрозрачный пиксель
+repeat(canvas, 10, 5, 10, forward, black)
 
-в2раза - увеличение изображения в 2 раза
-в5раз - увеличение изображения в 5 раз
-в10раз - увеличение изображения в 10 раз
-в50раз - увеличение изображения в 50 раз
-в100раз - увеличение изображения в 100 раз
-в200раз - увеличение изображения в 200 раз
-в500раз - увеличение изображения в 500 раз
-в1000раз - увеличение изображения в 1000 раз
+This code draws a sequence of pixels on the canvas "canvas" 10 times starting at coordinate x=5 y=10 moving forward, the pixel color is black,
+You can also pass transparency as the seventh argument and the distance between pixels as the eighth argument.
+
+The save_canvas function saves the canvas at a specific size, example:
+
+save_canvas(canvas, in100times)
+
+This code saves the canvas "canvas" by making it 100 times bigger.
+
+
+Here are all the arguments that can be passed to functions:
+
+Colors:
+
+black  
+white  
+red  
+blue  
+yellow  
+green  
+brown  
+sky_blue  
+light_sky_blue  
+violet  
+grey  
+orange  
+pink  
+light_green  
+dark_red  
+null  
+
+You can also create your own colors as all colors are stored in RGBA format.
+
+Transparency:
+
+translucent 
+transparent  
+on80  
+on60  
+on40  
+on20  
+opaque
+
+You can also create your own transparency since all colors are stored in RGBA format.
+
+Directions:
+
+forward  
+down  
+back  
+up  
+down_right  
+up_right  
+down_left  
+up_left
+
+
+Enlargement:
+
+in2times  
+in5times  
+in10times  
+in50times  
+in100times  
+in200times
+in500times  
+in1000times
+
+You can also create your own magnification.
