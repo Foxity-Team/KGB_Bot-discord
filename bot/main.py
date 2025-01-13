@@ -45,7 +45,7 @@ letters = ["A", "B", "C", "D", "E", "F"]
 
 last_command_time={}
 
-start_time = datetime.utcnow()
+start_time = datetime.now(timezone.utc)
 
 ERR_CHANNEL_ID = 1123467774098935828
 
@@ -1777,7 +1777,7 @@ async def price(ctx, arg=None):
 @kgb.command(description='Показывает аптайм бота')
 @helpCategory('info')
 async def uptime(ctx):
-    current_time = datetime.utcnow()
+    current_time = datetime.now(timezone.utc)
     uptime_duration = current_time - start_time
     uptime_str = str(uptime_duration).split('.')[0]
     await ctx.send(embed=discord.Embed(
