@@ -196,32 +196,6 @@ def no_format(user):
         return f'{user.name}#{user.discriminator}'
     return user.name
 
-def execute_code(code):
-    forbidden_keywords = [
-        'def', 
-        'eval', 
-        'while', 
-        '*', 
-        'import', 
-        'print', 
-        'return', 
-        'sudo', 
-        'subprocess',
-        'eval',
-        'exec',
-        'system'
-    ]
-    
-    for keyword in forbidden_keywords:
-        if keyword in code:
-            return 'Код содержит запрещенное ключевое слово: {}'.format(keyword)
-
-    try:
-        exec('from drapixcol import *\n' + code)
-        return 'Код успешно выполнен.'
-    except Exception as e:
-        return f'{str(e)}'
-
 @kgb.event
 async def on_ready():
     kgb.loop.create_task(change_status())
@@ -1696,52 +1670,6 @@ async def bot_info(ctx):
     embed.set_thumbnail(url=global_config.tumbaYUMBA)
     embed.set_footer(text='© 2023 Soviet WorkShop', icon_url=global_config.avaURL)
     await ctx.reply(embed=embed)
-
-@kgb.command(desciption='Выполняет код языка Drapixcol')
-@helpCategory('neuro')
-async def execute(ctx, *, code=None):
-    user_id = ctx.author.id
-
-    if user_id in last_command_time:
-        current_time = time.time()
-        last_time = last_command_time[user_id]
-        if current_time - last_time < 15:
-            await send_error_embed(ctx, f'Подождите еще {15 - (current_time - last_time):.1f} секунд')
-            return
-            
-    if not code and not ctx.message.attachments:
-        await send_error_embed(ctx, 'Вы должны прикрепить файл с кодом или ввести код в сообщении.')
-        return
-
-    if not code and ctx.message.attachments:
-        attachment = ctx.message.attachments[0]
-        if attachment.filename.endswith('.py'):
-            code = (await attachment.read()).decode('utf-8')
-        else:
-            await send_error_embed(ctx, 'Пожалуйста, прикрепите текстовый файл с кодом.')
-            return
-
-    result = execute_code(code)
-    if result == 'Код успешно выполнен.':
-        try:
-            with open('result.png', 'rb') as file:
-                result_image = discord.File(file)
-                await ctx.reply(result)
-                await ctx.reply(file=result_image)
-                os.remove('result.png')
-            last_command_time[user_id] = time.time()
-        except FileNotFoundError:
-            await send_error_embed(ctx, 'Ваш код не сохраняет картинку, либо не создаёт её')
-            last_command_time[user_id] = time.time()
-    else:
-        await send_error_embed(ctx, result)
-        last_command_time[user_id] = time.time()
-
-@kgb.command(description='Подробный хелп по команде execute')
-@helpCategory('info')
-async def help_execute(ctx):
-    file = discord.File('static_data/help.txt')
-    await ctx.reply(file=file)
 
 @kgb.command(description='Показывает курс криптовалют по отношению к рублю')
 @helpCategory('info')
