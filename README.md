@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/github/license/Foxity-Team/KGB_Bot-discord)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Foxity-Team/KGB_Bot-discord)</br>
 
-KGB Bot - universal assistant on your server!</br>
+KGB Bot - universal assistant on your discord server!</br>
 
 
 ## Installing
