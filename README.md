@@ -6,6 +6,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/Foxity-Team/KGB_Bot-discord)</br>
 
 KGB Bot - universal assistant on your discord server!</br>
+The repository has been moved to [this fork](https://github.com/lina-torovoltas/KGB_Bot-discord)
 
 
 ## Installing
